@@ -16,3 +16,5 @@ A project using Node.js, Express, and Knex to create a REST API for a database b
 7. Open your browser and navigate to `localhost:3000`
 8. You should see the following image:
 ![index.html](./assets/index.png)
+9. You can use the Swagger UI to test the API endpoints at `localhost:3000/api-docs`
+![Swagger UI](./assets/swagger.png)
