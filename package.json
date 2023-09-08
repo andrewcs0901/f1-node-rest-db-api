@@ -16,6 +16,8 @@
     "jsonwebtoken": "^9.0.2",
     "knex": "^2.5.1",
     "pg": "^8.11.3",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }
