@@ -16,7 +16,14 @@ const circuits = require('../controllers/circuits');
  * @swagger
  * components:
  *   schemas:
- *     Nation:
+ *     NationRequest:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *       required:
+ *         - name
+ *     NationResponse:
  *       type: object
  *       properties:
  *         id:
@@ -41,7 +48,7 @@ const circuits = require('../controllers/circuits');
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Nation'
+ *                 $ref: '#/components/schemas/NationResponse'
  *   post:
  *     summary: Create a new nation
  *     tags: [Nations]
@@ -50,7 +57,7 @@ const circuits = require('../controllers/circuits');
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Nation'
+ *             $ref: '#/components/schemas/NationRequest'
  *     responses:
  *       201:
  *         description: Nation created successfully
@@ -58,8 +65,6 @@ const circuits = require('../controllers/circuits');
  *          application/json:
  *           schema:
  *            $ref: '#/components/schemas/Nation'
- *       400:
- *         description: Invalid request body
  */
 
 /**
@@ -81,7 +86,7 @@ const circuits = require('../controllers/circuits');
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Nation'
+ *               $ref: '#/components/schemas/NationResponse'
  *       404:
  *         description: Nation not found
  *   put:
@@ -99,12 +104,10 @@ const circuits = require('../controllers/circuits');
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Nation'
+ *             $ref: '#/components/schemas/NationRequest'
  *     responses:
  *       200:
  *         description: Nation updated successfully
- *       400:
- *         description: Invalid request body
  *       404:
  *         description: Nation not found
  *   delete:
@@ -140,7 +143,17 @@ routes.delete('/nations/:id', nations.delete);
  * @swagger
  * components:
  *   schemas:
- *     Team:
+ *     TeamRequest:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         nationId:
+ *           type: integer
+ *       required:
+ *         - name
+ *         - nationId    
+ *     TeamResponse:
  *       type: object
  *       properties:
  *         id:
@@ -157,6 +170,18 @@ routes.delete('/nations/:id', nations.delete);
 /**
  * @swagger
  * /teams:
+ *   get:
+ *    summary: Get all teams
+ *    tags: [Teams]
+ *    responses:
+ *      200:
+ *        description: Returns an array of teams
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/TeamResponse'
  *   post:
  *     summary: Create a new team
  *     tags: [Teams]
@@ -165,7 +190,7 @@ routes.delete('/nations/:id', nations.delete);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Team'
+ *             $ref: '#/components/schemas/TeamRequest'
  *     responses:
  *       201:
  *         description: Team created successfully
@@ -192,7 +217,7 @@ routes.delete('/nations/:id', nations.delete);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Team'
+ *               $ref: '#/components/schemas/TeamResponse'
  *       404:
  *         description: Team not found
  *   put:
@@ -210,12 +235,10 @@ routes.delete('/nations/:id', nations.delete);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Team'
+ *             $ref: '#/components/schemas/TeamRequest'
  *     responses:
  *       200:
  *         description: Team updated successfully
- *       400:
- *         description: Invalid request body
  *       404:
  *         description: Team not found
  *   delete:
@@ -244,7 +267,22 @@ routes.delete('/teams/:id', teams.delete);
  * @swagger
  * components:
  *   schemas:
- *     Driver:
+ *     DriverRequest:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         number:
+ *           type: string
+ *         teamId:
+ *           type: integer
+ *         nationId:
+ *           type: integer
+ *       required:
+ *         - name
+ *         - number
+ *         - nationId
+ *     DriverResponse:
  *       type: object
  *       properties:
  *         id:
@@ -284,7 +322,7 @@ routes.delete('/teams/:id', teams.delete);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Driver'
+ *                 $ref: '#/components/schemas/DriverResponse'
  *   post:
  *     summary: Create a new driver
  *     tags: [Drivers]
@@ -293,7 +331,7 @@ routes.delete('/teams/:id', teams.delete);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Driver'
+ *             $ref: '#/components/schemas/DriverRequest'
  *     responses:
  *       201:
  *         description: Driver created successfully
@@ -320,7 +358,7 @@ routes.delete('/teams/:id', teams.delete);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Driver'
+ *               $ref: '#/components/schemas/DriverResponse'
  *       404:
  *         description: Driver not found
  *   put:
@@ -338,7 +376,7 @@ routes.delete('/teams/:id', teams.delete);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Driver'
+ *             $ref: '#/components/schemas/DriverRequest'
  *     responses:
  *       200:
  *         description: Driver updated successfully
@@ -372,7 +410,30 @@ routes.delete('/drivers/:id', drivers.delete);
  * @swagger
  * components:
  *   schemas:
- *     Circuit:
+ *     CircuitRequest:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         length:
+ *           type: number
+ *         turns:
+ *           type: integer
+ *         lapRecord:
+ *           type: string
+ *           format: time
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         nationId:
+ *           type: integer
+ *       required:
+ *         - name
+ *         - length
+ *         - turns
+ *         - date
+ *         - nationId
+ *     CircuitResponse:
  *       type: object
  *       properties:
  *         id:
@@ -420,7 +481,7 @@ routes.delete('/drivers/:id', drivers.delete);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Circuit'
+ *                 $ref: '#/components/schemas/CircuitResponse'
  *   post:
  *     summary: Create a new circuit
  *     tags: [Circuits]
@@ -429,7 +490,7 @@ routes.delete('/drivers/:id', drivers.delete);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Circuit'
+ *             $ref: '#/components/schemas/CircuitRequest'
  *     responses:
  *       201:
  *         description: Circuit created successfully
@@ -456,7 +517,7 @@ routes.delete('/drivers/:id', drivers.delete);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Circuit'
+ *               $ref: '#/components/schemas/CircuitResponse'
  *       404:
  *         description: Circuit not found
  *   put:
@@ -474,7 +535,7 @@ routes.delete('/drivers/:id', drivers.delete);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Circuit'
+ *             $ref: '#/components/schemas/CircuitRequest'
  *     responses:
  *       200:
  *         description: Circuit updated successfully
