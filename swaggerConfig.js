@@ -4,6 +4,8 @@ const swaggerUi = require('swagger-ui-express');
 const { V1_ROUTE } = require('./consts/consts');
 const { SERVER_URL, SERVER_PORT } = require('./configs/configs')
 
+const PORT = SERVER_PORT? `:${SERVER_PORT}` : ''
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -14,7 +16,7 @@ const options = {
     },
     servers: [
       {
-        url: `${SERVER_URL}:${SERVER_PORT}${V1_ROUTE}`,
+        url: `${SERVER_URL}${PORT}${V1_ROUTE}`,
       },
     ],
   },
