@@ -6,7 +6,7 @@ exports.up = function (knex) {
     return knex.schema.createTable('circuits', table => {
         table.increments('id');
         table.string('name').notNullable();
-        table.string('length').notNullable();
+        table.double('length').notNullable();
         table.integer('turns').checkPositive().notNullable();
         table.time('lapRecord');
         table.dateTime('date').notNullable();
