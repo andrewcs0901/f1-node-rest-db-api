@@ -1,3 +1,6 @@
+html, body {
+    scroll-snap-type: y mandatory;
+}
 body {
     font-family: system-ui;
     margin: 0;
@@ -6,7 +9,8 @@ body {
 
 body > * {
     padding: 0 10px;
-    min-height: 100vh;
+    height: 100vh;
+    scroll-snap-align: start;
 }
 
 header {
