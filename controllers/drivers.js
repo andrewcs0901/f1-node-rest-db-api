@@ -1,16 +1,18 @@
 const knex = require('knex')(require('../knexfile')[require('../configs/configs').NODE_ENV]);
 
 const drivers = {
-    index: (req, res) => {
+    index: (_req, res, next) => {
         knex('drivers')
-            .then(drivers => res.json(drivers));
+            .then(drivers => res.json(drivers))
+            .catch(next);
     },
-    show: (req, res) => {
+    show: (req, res, next) => {
         knex('drivers')
             .where('id', req.params.id)
-            .then(drivers => res.json(drivers));
+            .then(([drivers]) => res.status(drivers ? 200 : 404).json(drivers))
+            .catch(next);
     },
-    create: (req, res) => {
+    create: (req, res, next) => {
         knex('drivers')
             .insert({
                 name: req.body.name,
@@ -21,28 +23,29 @@ const drivers = {
             .then(() => {
                 knex('drivers')
                     .then(drivers => res.json(drivers));
-            });
+            })
+            .catch(next);
     },
-    update: (req, res) => {
+    update: (req, res, next) => {
         knex('drivers')
             .where('id', req.params.id)
             .update({
                 name: req.body.name,
                 teamId: req.body.teamId
+            }, ['id', 'name', 'teamId', 'nationId'])
+            .then(([driver]) => {
+                res.status(driver ? 200 : 404).json(driver);
             })
-            .then(() => {
-                knex('drivers')
-                    .then(drivers => res.json(drivers));
-            });
+            .catch(next);
     },
-    delete: (req, res) => {
+    delete: (req, res, next) => {
         knex('drivers')
             .where('id', req.params.id)
             .del()
-            .then(() => {
-                knex('drivers')
-                    .then(drivers => res.json(drivers));
-            });
+            .then((result) => {
+                res.status(result ? 204 : 404).json();
+            })
+            .catch(next);
     }
 };
 

@@ -1,16 +1,18 @@
 const knex = require('knex')(require('../knexfile')[require('../configs/configs').NODE_ENV]);
 
 const teams = {
-    index: (req, res) => {
+    index: (_req, res, next) => {
         knex('teams')
-            .then(teams => res.json(teams));
+            .then(teams => res.json(teams))
+            .catch(next);
     },
-    show: (req, res) => {
+    show: (req, res, next) => {
         knex('teams')
             .where('id', req.params.id)
-            .then(teams => res.json(teams));
+            .then(teams => res.json(teams))
+            .catch(next);
     },
-    create: (req, res) => {
+    create: (req, res, next) => {
         knex('teams')
             .insert({
                 name: req.body.name,
@@ -19,9 +21,10 @@ const teams = {
             .then(() => {
                 knex('teams')
                     .then(teams => res.json(teams));
-            });
+            })
+            .catch(next);
     },
-    update: (req, res) => {
+    update: (req, res, next) => {
         knex('teams')
             .where('id', req.params.id)
             .update({
@@ -31,16 +34,15 @@ const teams = {
             .then(() => {
                 knex('teams')
                     .then(teams => res.json(teams));
-            });
+            })
+            .catch(next);
     },
-    delete: (req, res) => {
+    delete: (req, res, next) => {
         knex('teams')
             .where('id', req.params.id)
             .del()
-            .then(() => {
-                knex('teams')
-                    .then(teams => res.json(teams));
-            });
+            .then((result) => res.status(result ? 204 : 404).json())
+            .catch(next);
     }
 };
 
